@@ -9,7 +9,14 @@ def find_iter(target_regex, in_stream, out_stream):
     
     Parameters
     ----------
-    NONE
+    target_regex
+        the regular expression that is searched for in in_stream
+
+    in_stream
+        the text to be searched
+
+    out_stream
+        the file to which the results are written
 
     Yields
     ------
@@ -18,17 +25,35 @@ def find_iter(target_regex, in_stream, out_stream):
         containing the index of the line and the regular expression match object.
     """
 
-#target_regex = re.compile(r('\w*herit\w*)', re.IGNORECASE)
-    #print('Opening origin.txt')
-    #with open('origin.txt', 'r') as in_stream:
-       # print('Opening output.txt')
-        #with open('output.txt', 'w') as out_stream:
     for line_index, line in enumerate(in_stream):
         for match_object in target_regex.finditer(line):
             yield line_index, match_object
 
 
 def record_all_occurences(in_stream, out_stream, target_regex):
+    """
+    Uses find_iter function to find all occurrences of target_regex in in_stream and writes
+    them to out_stream with the line index.
+
+    Parameters
+    ----------
+    in_stream
+        The text to search
+
+    out_stream
+        The file to which the results should be written
+
+    target_regex
+        The regular expression which is searched for in in_stream
+
+    Returns
+    -------
+
+    occurrences
+         The number of times that target_regex is found in in_stream
+
+    """
+
     occurrences = 0
     for line_index, match_obj in find_iter(target_regex, in_stream, out_stream):
         occurrences += 1
